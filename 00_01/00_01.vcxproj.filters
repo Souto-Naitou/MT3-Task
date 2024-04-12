@@ -50,11 +50,11 @@
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\StringUtility.cpp">
       <Filter>KamataEngine\Source</Filter>
     </ClCompile>
-    <ClCompile Include="vector3calc.cpp">
-      <Filter>Vector3\Calculations</Filter>
-    </ClCompile>
-    <ClCompile Include="vector3out.cpp">
+    <ClCompile Include="Vector3\out\vector3out.cpp">
       <Filter>Vector3\Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3\calc\vector3calc.cpp">
+      <Filter>Vector3\Calculations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,11 +131,11 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector3.h">
       <Filter>Vector3</Filter>
     </ClInclude>
-    <ClInclude Include="vector3calc.h">
-      <Filter>Vector3\Calculations</Filter>
-    </ClInclude>
-    <ClInclude Include="vector3out.h">
+    <ClInclude Include="Vector3\out\vector3out.h">
       <Filter>Vector3\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3\calc\vector3calc.h">
+      <Filter>Vector3\Calculations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
