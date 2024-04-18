@@ -1,7 +1,7 @@
 #include <Novice.h>
 
 #include "Vector3/calc/vector3calc.h"
-#include "vector3/out/vector3out.h"
+#include "vector3/output/vector3out.h"
 
 const char kWindowTitle[] = "学籍番号";
 

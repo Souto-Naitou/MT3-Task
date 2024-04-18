@@ -4,4 +4,4 @@
 
 static const int kRowHeight = 20;
 static const int kColumnWidth = 60;
-void MatrixScreenPrint(int _x, int _y, const Matrix4x4& _matrix);
+void MatrixScreenPrint(int _x, int _y, const Matrix4x4& _matrix, const char* _label);
