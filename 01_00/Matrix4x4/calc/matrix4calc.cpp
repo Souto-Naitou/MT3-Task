@@ -1,6 +1,7 @@
 ﻿#include "matrix4calc.h"
 #include <cmath>
 #include "MathExtension/mathExtension.h"
+#include <cassert>
 
 Matrix4x4 Add(const Matrix4x4& _m1, const Matrix4x4& _m2)
 {
@@ -355,6 +356,7 @@ Matrix4x4 MakeOrthographicMatrix(float _left, float _top, float _right, float _b
 
 Matrix4x4 MakeViewportMatrix(float _left, float _top, float _width, float _height, float _minDepth, float _maxDepth)
 {
+	assert(_minDepth >= _maxDepth);
 	Matrix4x4 result{};
 	result.m[0][0] = _width / 2.0f;
 	result.m[1][1] = -_height / 2.0f;
