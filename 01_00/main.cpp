@@ -46,9 +46,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		int linecount = 0;
-		MatrixScreenPrint(0, kRowHeight * 5 * linecount++, orthographicMatrix, "orthographicMatrix");
-		MatrixScreenPrint(0, kRowHeight * 5 * linecount++, perspectiveFovMatrix, "perspectiveFovMatrix");
-		MatrixScreenPrint(0, kRowHeight * 5 * linecount++, viewportMatrix, "viewportMatrix");
+		MatrixScreenPrint(15, kRowHeight * 5 * linecount++ + 15, orthographicMatrix, "orthographicMatrix");
+		MatrixScreenPrint(15, kRowHeight * 5 * linecount++ + 15, perspectiveFovMatrix, "perspectiveFovMatrix");
+		MatrixScreenPrint(15, kRowHeight * 5 * linecount++ + 15, viewportMatrix, "viewportMatrix");
 
 		///
 		/// ↑描画処理ここまで
