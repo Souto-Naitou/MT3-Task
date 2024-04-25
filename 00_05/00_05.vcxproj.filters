@@ -15,22 +15,22 @@
       <UniqueIdentifier>{c6468eb4-788b-4a83-b207-a5f4804e56c5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Matrix4">
-      <UniqueIdentifier>{931feeef-1e0c-4d48-8648-1d2ea5de3671}</UniqueIdentifier>
+      <UniqueIdentifier>{dd1cd921-446e-44ac-b4d6-7c85f9e534bb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Matrix4\Caluculation">
-      <UniqueIdentifier>{c8f96ca0-838b-49fc-823b-181721186108}</UniqueIdentifier>
+      <UniqueIdentifier>{f3f0ec85-3694-4393-ae96-c0e449c145da}</UniqueIdentifier>
     </Filter>
     <Filter Include="Matrix4\Functions">
-      <UniqueIdentifier>{b5f4f0ef-2c08-42f6-8b19-901a6f03d698}</UniqueIdentifier>
+      <UniqueIdentifier>{521141a9-0348-47dd-9058-2957cbc4c873}</UniqueIdentifier>
     </Filter>
     <Filter Include="Vector3">
-      <UniqueIdentifier>{ca10680d-c3b0-46b1-8860-3ef592e019af}</UniqueIdentifier>
+      <UniqueIdentifier>{1f5d9511-ae37-4711-9b4c-9a8deb4a6e68}</UniqueIdentifier>
     </Filter>
     <Filter Include="Vector3\Caluculation">
-      <UniqueIdentifier>{d5c0282b-4728-4610-a9a9-22e27aa96603}</UniqueIdentifier>
+      <UniqueIdentifier>{dca1443b-ea4f-4ad8-afb7-edc68e2759ae}</UniqueIdentifier>
     </Filter>
     <Filter Include="Vector3\Functions">
-      <UniqueIdentifier>{de8df01a-fb9e-4a78-bc09-fb4d772b7ceb}</UniqueIdentifier>
+      <UniqueIdentifier>{d61ba920-9ed9-4d01-a853-dea40ee0f45e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -141,7 +141,6 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\base\StringUtility.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
-    <ClInclude Include="includesMain.h" />
     <ClInclude Include="Matrix4x4\calc\matrix4calc.h">
       <Filter>Matrix4\Caluculation</Filter>
     </ClInclude>
