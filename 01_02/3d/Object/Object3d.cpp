@@ -30,15 +30,15 @@ void DrawSphere(const Sphere& _sphere, const Matrix4x4& _viewProjectionMatrix, c
 			};
 			Vector3 b =
 			{
-				_sphere.radius * std::cosf(lat + kLatEvery) * std::cosf(lon),
-				_sphere.radius * std::sinf(lat + kLatEvery),
-				_sphere.radius * std::cosf(lat + kLatEvery) * std::sinf(lon)
+				_sphere.radius* std::cosf(lat+kLatEvery)* std::cosf(lon),
+				_sphere.radius* std::sinf(lat+kLatEvery),
+				_sphere.radius* std::cosf(lat+kLatEvery)* std::sinf(lon)
 			};
 			Vector3 c =
 			{
-				_sphere.radius * std::cosf(lat) * std::cosf(lon + kLonEvery),
-				_sphere.radius * std::sinf(lat),
-				_sphere.radius * std::cosf(lat) * std::sinf(lon + kLonEvery)
+				_sphere.radius* std::cosf(lat)* std::cosf(lon + kLonEvery),
+				_sphere.radius* std::sinf(lat),
+				_sphere.radius* std::cosf(lat)* std::sinf(lon + kLonEvery)
 			};
 			
 			Vector3 ndcA = Transform(a, wvpMatrix);
@@ -56,7 +56,7 @@ void DrawSphere(const Sphere& _sphere, const Matrix4x4& _viewProjectionMatrix, c
 				_color
 			);
 			Novice::DrawLine(
-				int(screenB.x), int(screenB.y),
+				int(screenA.x), int(screenA.y),
 				int(screenC.x), int(screenC.y),
 				_color
 			);
