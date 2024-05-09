@@ -105,9 +105,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (ImGui::TreeNode("Camera")) {
 			if (ImGui::TreeNode("Position"))
 			{
-				ImGui::InputFloat("X", &cameraPosition.x);
-				ImGui::InputFloat("Y", &cameraPosition.y);
-				ImGui::InputFloat("Z", &cameraPosition.z);
+				ImGui::SliderFloat("X", &cameraPosition.x, -20.0f, 20.0f);
+				ImGui::SliderFloat("Y", &cameraPosition.y, -20.0f, 20.0f);
+				ImGui::SliderFloat("Z", &cameraPosition.z, -20.0f, 20.0f);
 
 				ImGui::TreePop();
 			}
@@ -129,6 +129,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				ImGui::SliderFloat("X", &sphere.center.x,-50.0f,50.0f);
 				ImGui::SliderFloat("Y", &sphere.center.y, -50.0f, 50.0f);
 				ImGui::SliderFloat("Z", &sphere.center.z, -50.0f, 50.0f);
+
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Transform"))
+			{
+				ImGui::SliderFloat("Radius", &sphere.radius, 0.0f, 10.0f);
 
 				ImGui::TreePop();
 			}
