@@ -49,7 +49,7 @@ void DrawSphere(const Sphere& _sphere, const Matrix4x4& _viewProjectionMatrix, c
 			Vector3 screenB = Transform(ndcB, _viewportMatrix);
 			Vector3 screenC = Transform(ndcC, _viewportMatrix);
 
-			// ab,bcで線を引く
+			// ab,acで線を引く
 			Novice::DrawLine(
 				int(screenA.x), int(screenA.y),
 				int(screenB.x), int(screenB.y),
