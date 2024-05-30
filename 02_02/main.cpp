@@ -101,20 +101,24 @@ void ImGuiWnd()
 	{
 		if (ImGui::BeginTabItem("Camera"))
 		{
+			ImGui::PushID("CAMERA_TRANSLATE");
 			ImGui::Spacing();
 			ImGui::Text("Translate");
 			ImGui::SliderFloat("X", &cameraPosition.x, -20.0f, 20.0f);
 			ImGui::SliderFloat("Y", &cameraPosition.y, -20.0f, 20.0f);
 			ImGui::SliderFloat("Z", &cameraPosition.z, -20.0f, 20.0f);
+			ImGui::PopID();
 
 			ImGui::Spacing();
 			ImGui::Separator();
 			ImGui::Spacing();
 			
+			ImGui::PushID("CAMERA_ROTATION");
 			ImGui::Text("Rotation");
 			ImGui::SliderFloat("X", &cameraRotation.x, -2 * float(M_PI), 2 * float(M_PI));
 			ImGui::SliderFloat("Y", &cameraRotation.y, -2 * float(M_PI), 2 * float(M_PI));
 			ImGui::SliderFloat("Z", &cameraRotation.z, -2 * float(M_PI), 2 * float(M_PI));
+			ImGui::PopID();
 
 			ImGui::EndTabItem();
 		}
