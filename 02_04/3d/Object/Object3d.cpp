@@ -193,6 +193,11 @@ bool IsCollision(const Segment& _segment, const Triangle& _triangle)
 
 	float t = (plane.distance - Dot(_segment.origin, plane.normal)) / dot;
 
+	if (t > 1.0f)
+	{
+		return false;
+	}
+
 	Vector3 p = Add(_segment.origin, Multiply(t, _segment.diff));
 
 	Vector3 v0p = Subtract(p, _triangle.vertices[0]);
@@ -228,8 +233,19 @@ bool IsCollision(const Segment& _segment, const Triangle& _triangle, const Matri
 	}
 
 	float t = (plane.distance - Dot(_segment.origin, plane.normal)) / dot;
+	
+	if (t > 1.0f)
+	{
+		return false;
+	}
 
 	Vector3 p = Add(_segment.origin, Multiply(t, _segment.diff));
+
+	Sphere sphere{};
+	sphere.center = p;
+	sphere.radius = 0.01f;
+
+	DrawSphere(sphere, _viewProjectionMatrix, _viewportMatrix, GREEN);
 
 	Vector3 v0p = Subtract(p, _triangle.vertices[0]);
 	Vector3 v1p = Subtract(p, _triangle.vertices[1]);
