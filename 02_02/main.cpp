@@ -101,7 +101,7 @@ void ImGuiWnd()
 	{
 		if (ImGui::BeginTabItem("Camera"))
 		{
-			ImGui::PushID("CAMERA_TRANSLATE");
+			ImGui::PushID("CAMERA_TRANSLATION");
 			ImGui::Spacing();
 			ImGui::Text("Translate");
 			ImGui::SliderFloat("X", &cameraPosition.x, -20.0f, 20.0f);
@@ -129,11 +129,15 @@ void ImGuiWnd()
 
 			ImGui::Text("Transform");
 
+			ImGui::PushID("SPHERE_TRANSLATION");
 			ImGui::SliderFloat("X", &sphere1.center.x, -3.0f, 3.0f);
 			ImGui::SliderFloat("Y", &sphere1.center.y, -3.0f, 3.0f);
 			ImGui::SliderFloat("Z", &sphere1.center.z, -3.0f, 3.0f);
+			ImGui::PopID();
 
+			ImGui::PushID("SPHERE_RADIUS");
 			ImGui::SliderFloat("Radius", &sphere1.radius, 0.001f, 3.0f);
+			ImGui::PopID();
 
 			ImGui::EndTabItem();
 		}
@@ -144,12 +148,13 @@ void ImGuiWnd()
 
 			ImGui::Text("Transform");
 
+			ImGui::PushID("PLANE_TRANSFORM");
 			if (ImGui::DragFloat3("Normal", &plane.normal.x, 0.01f))
 			{
 				plane.normal = Normalize(plane.normal);
 			}
 			ImGui::DragFloat("Distance", &plane.distance, 0.01f);
-			
+			ImGui::PopID();
 
 			ImGui::EndTabItem();
 		}
