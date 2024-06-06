@@ -46,7 +46,7 @@ AABB		aabb2
 
 float		cameraSpeed				= 0.01f;
 bool		isCollision				= false;
-bool		enableElementsNumber	= false;
+bool		enableElementsNumber	= true;
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -93,6 +93,8 @@ void ImGuiWnd()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImU32(0xff080808));
 	ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImU32(0xff0C27D8));
+	ImGui::PushStyleColor(ImGuiCol_TabActive, ImU32(0xff0C27D8));
+	ImGui::PushStyleColor(ImGuiCol_TabHovered, ImU32(0xff273fd8));
 
 	/// Window
 	ImGui::SetNextWindowSize(ImVec2(300, 320));
@@ -190,6 +192,8 @@ void ImGuiWnd()
 
 	ImGui::End();
 
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
 	ImGui::PopStyleVar();
