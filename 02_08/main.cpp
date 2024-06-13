@@ -11,16 +11,16 @@
 #include "3d/DebugFunction/Debug3D.h"
 #include "3d/Object/Object3d.h"
 
-const	char	kWindowTitle[]	= "学籍番号";
-const	int		kWindowWidth	= 1280;
-const	int		kWindowHeight	= 720;
-const	Vector3 defaultRot		= {0.0f, 0.0f, 0.0f};
+const		char		kWindowTitle[]	= "学籍番号";
+const		int			kWindowWidth	= 1280;
+const		int			kWindowHeight	= 720;
+const		Vector3		defaultRot		= {0.0f, 0.0f, 0.0f};
 
 
-void	Initialize();
-void	ImGuiWnd();
-void	Update();
-void	Draw();
+void		Initialize();
+void		ImGuiWnd();
+void		Update();
+void		Draw();
 
 char		keys[256]{};
 char		preKeys[256]{};
@@ -33,8 +33,8 @@ Matrix4x4	viewProjectionMatrix{};
 Vector3		cameraPosition{};
 Vector3		cameraRotation{};
 
+Matrix4x4	rotateMatrix{};
 Vector3		rotate{};
-
 OBB			obb
 {
 	.center = {-1.0f, 0.0f, 0.0f},
@@ -56,6 +56,7 @@ Sphere		sphere
 float		cameraSpeed				= 0.01f;
 bool		isCollision				= false;
 bool		enableElementsNumber	= true;
+bool		enableCollisionDebug	= false;
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -200,7 +201,8 @@ void ImGuiWnd()
 			ImGui::Spacing();
 			ImGui::Text("Flags");
 
-			ImGui::Checkbox("Enable draw element number", &enableElementsNumber);
+			ImGui::Checkbox("Enable draw element name", &enableElementsNumber);
+			ImGui::Checkbox("Enable collision debug", &enableCollisionDebug);
 
 			ImGui::EndTabItem();
 		}
@@ -242,7 +244,7 @@ void Update()
 	viewProjectionMatrix = Multiply(viewMatrix, projectionMatrix);
 
 	// 回転行列を作成
-	Matrix4x4 rotateMatrix = Multiply(MakeRotateXMatrix(rotate.x), Multiply(MakeRotateYMatrix(rotate.y), MakeRotateZMatrix(rotate.z)));
+	rotateMatrix = Multiply(MakeRotateXMatrix(rotate.x), Multiply(MakeRotateYMatrix(rotate.y), MakeRotateZMatrix(rotate.z)));
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -251,18 +253,23 @@ void Update()
 		obb.orientations[i].z = rotateMatrix.m[i][2];
 	}
 	
-
-	isCollision = IsCollision(obb, sphere);
+	if (enableCollisionDebug)
+		isCollision = IsCollision(obb, sphere, viewProjectionMatrix, viewportMatrix);
+	else isCollision = IsCollision(obb, sphere);
 }
 
 void Draw()
 {
 	DrawGrid(viewProjectionMatrix, viewportMatrix);
-	DrawOBB(obb, viewProjectionMatrix, viewportMatrix, isCollision ? RED : WHITE);
 	DrawSphere(sphere, viewProjectionMatrix, viewportMatrix, WHITE);
+	DrawOBB(obb, viewProjectionMatrix, viewportMatrix, isCollision ? RED : WHITE);
 	if (enableElementsNumber)
 	{
-		Vector3 scrpt1 = obb.center;
+		Matrix4x4 rotateMatrixTransposed = Transpose(rotateMatrix);
+		Vector3 min = Transform(Add(-obb.size, obb.center), rotateMatrixTransposed);
+		Vector3 max = Transform(Add(obb.size, obb.center), rotateMatrixTransposed);
+
+		Vector3 scrpt1 = Multiply(0.5f, Add(min, max));
 		Vector3 scrpt2 = sphere.center;
 
 		ScreenPrint(scrpt1, viewProjectionMatrix, viewportMatrix, "OBB");

@@ -3,6 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <Matrix4x4/calc/matrix4calc.h>
+#include <Matrix4x4/output/matrix4out.h>
 #include <Vector3/calc/vector3calc.h>
 #include <Novice.h>
 #include <algorithm>
@@ -515,6 +516,32 @@ bool IsCollision(const OBB& _obb, const Sphere& _sphere)
 
     AABB aabbOBBLocal{ .min = -_obb.size, .max = _obb.size };
     Sphere sphereOBBLocal{ centerInOBBLocalSpace, _sphere.radius };
+    
+    return IsCollision(aabbOBBLocal, sphereOBBLocal);
+}
+
+bool IsCollision(const OBB& _obb, const Sphere& _sphere, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix)
+{
+    Matrix4x4 obbWorldMatrix{};
+    for (int i = 0; i < 3; i++)
+        obbWorldMatrix.m[0][i] = _obb.orientations[i].x;
+    for (int i = 0; i < 3; i++)
+        obbWorldMatrix.m[1][i] = _obb.orientations[i].y;
+    for (int i = 0; i < 3; i++)
+        obbWorldMatrix.m[2][i] = _obb.orientations[i].z;
+    for (int i = 0; i < 3; i++)
+        obbWorldMatrix.m[3][i] = *(&_obb.center.x + i);
+    obbWorldMatrix.m[3][3] = 1.0f;
+
+    Matrix4x4 obbWorldMatrixInverse = Inverse(obbWorldMatrix);
+
+    Vector3 centerInOBBLocalSpace = Transform(_sphere.center, obbWorldMatrixInverse);
+
+    AABB aabbOBBLocal{ .min = -_obb.size, .max = _obb.size };
+    Sphere sphereOBBLocal{ centerInOBBLocalSpace, _sphere.radius };
+
+    DrawAABB(aabbOBBLocal, _viewProjectionMatrix, _viewportMatrix, BLUE);
+    DrawSphere(sphereOBBLocal, _viewProjectionMatrix, _viewportMatrix, BLUE);
     
     return IsCollision(aabbOBBLocal, sphereOBBLocal);
 }

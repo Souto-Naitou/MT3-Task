@@ -86,3 +86,4 @@ bool IsCollision(const AABB& _aabb, const Segment& _segment);
 bool IsCollision(const AABB& _aabb, const Line& _line);
 bool IsCollision(const AABB& _aabb, const Ray& _ray);
 bool IsCollision(const OBB& _obb, const Sphere& _sphere);
+bool IsCollision(const OBB& _obb, const Sphere& _sphere, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix);
