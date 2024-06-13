@@ -217,8 +217,8 @@ void DrawOBB(const OBB& _obb, const Matrix4x4& _viewProjectionMatrix, const Matr
 
     for (int i = 0; i < 8; i++)
     {
-        vertices[i] = Add(vertices[i], _obb.center);
         vertices[i] = Transform(vertices[i], rotateMatrix);
+        vertices[i] = Add(vertices[i], _obb.center);
     }
 
     DrawLine(vertices[0], Subtract(vertices[1], vertices[0]), _viewProjectionMatrix, _viewportMatrix, _color); // 0 -> 1

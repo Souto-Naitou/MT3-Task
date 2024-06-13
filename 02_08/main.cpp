@@ -265,11 +265,7 @@ void Draw()
 	DrawOBB(obb, viewProjectionMatrix, viewportMatrix, isCollision ? RED : WHITE);
 	if (enableElementsNumber)
 	{
-		Matrix4x4 rotateMatrixTransposed = Transpose(rotateMatrix);
-		Vector3 min = Transform(Add(-obb.size, obb.center), rotateMatrixTransposed);
-		Vector3 max = Transform(Add(obb.size, obb.center), rotateMatrixTransposed);
-
-		Vector3 scrpt1 = Multiply(0.5f, Add(min, max));
+		Vector3 scrpt1 = obb.center;
 		Vector3 scrpt2 = sphere.center;
 
 		ScreenPrint(scrpt1, viewProjectionMatrix, viewportMatrix, "OBB");
