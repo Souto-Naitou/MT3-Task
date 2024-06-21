@@ -65,7 +65,7 @@ Vector3 Perpendicular(const Vector3& _vector);
 Plane MakePlane(const Triangle& _triangle);
 void Clamp(AABB& _aabb);
 
-void ScreenPrint(const Vector3& _pos, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix, const char* fmt);
+void WorldPrint(const Vector3& _pos, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix, const char* fmt);
 void DrawLine(const Vector3& _origin, const Vector3& _diff, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix, uint32_t _color);
 void DrawSphere(const Sphere& _sphere, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix, uint32_t _color);
 void DrawPlane(const Plane& _plane, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix, uint32_t _color);
@@ -87,3 +87,13 @@ bool IsCollision(const AABB& _aabb, const Line& _line);
 bool IsCollision(const AABB& _aabb, const Ray& _ray);
 bool IsCollision(const OBB& _obb, const Sphere& _sphere);
 bool IsCollision(const OBB& _obb, const Sphere& _sphere, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix);
+bool IsCollision(const Segment& _segment, const OBB& _obb);
+/// <summary>
+/// OBBと線分の当たり判定(デバッグ用)
+/// </summary>
+/// <param name="_segment">線分</param>
+/// <param name="_obb">OBB</param>
+/// <param name="_viewProjectionMatrix">ビュープロジェクション行列</param>
+/// <param name="_viewportMatrix">ビューポート行列</param>
+/// <returns>衝突時 == true</returns>
+bool IsCollision(const Segment& _segment, const OBB& _obb, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix);

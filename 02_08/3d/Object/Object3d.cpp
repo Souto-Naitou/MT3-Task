@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <assert.h>
 #include <type_traits>
+#include "NVDebug.h"
+#include <format>
 
 enum class LineType
 {
@@ -51,7 +53,7 @@ void Clamp(AABB& _aabb)
     return;
 }
 
-void ScreenPrint(const Vector3& _pos, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix, const char* fmt)
+void WorldPrint(const Vector3& _pos, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix, const char* fmt)
 {
     Vector3 screen = Transform(Transform(_pos, _viewProjectionMatrix), _viewportMatrix);
     int count = int(strlen(fmt)) - 1;
@@ -446,7 +448,47 @@ bool IsCollision(const AABB& _aabb, const Segment& _segment)
     float tmin = t.x;
     float tmax = t.y;
 
-    if (tmin > 0.0f && tmin <= 1.0f && tmin <= tmax) return true;
+    if (tmin <= tmax && tmax >= 0.0f && tmin <= 1.0f) return true;
+    return false;
+}
+
+bool IsCollision(const AABB& _aabb, const Segment& _segment, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix)
+{
+    // すべて0だったらアサーション
+    for (int i = 0; i < 3; i++)
+    {
+        if (*(&_segment.diff.x + i) != 0)
+        {
+            break;
+        }
+        if (i == 2)
+        {
+            assert(false);
+        }
+    }
+
+    Vector3 t = CalcParametricValue(_aabb, _segment.origin, _segment.diff);
+    float tmin = t.x;
+    float tmax = t.y;
+
+    Sphere point1
+    {
+        .center = _segment.origin + Multiply(tmin, _segment.diff),
+        .radius = 0.02f
+    };
+    Sphere point2
+    {
+        .center = _segment.origin + Multiply(tmax, _segment.diff),
+        .radius = 0.02f
+    };
+
+    DrawSphere(point1, _viewProjectionMatrix, _viewportMatrix, GREEN);
+    DrawSphere(point2, _viewProjectionMatrix, _viewportMatrix, GREEN);
+
+    NVDebug::ScreenPrint(std::format("tmin = {}", tmin).c_str());
+    NVDebug::ScreenPrint(std::format("tmax = {}", tmax).c_str());
+
+    if (tmin <= tmax && tmax >= 0.0f && tmin <= 1.0f) return true;
     return false;
 }
 
@@ -544,4 +586,69 @@ bool IsCollision(const OBB& _obb, const Sphere& _sphere, const Matrix4x4& _viewP
     DrawSphere(sphereOBBLocal, _viewProjectionMatrix, _viewportMatrix, BLUE);
     
     return IsCollision(aabbOBBLocal, sphereOBBLocal);
+}
+
+bool IsCollision(const Segment& _segment, const OBB& _obb)
+{
+    Matrix4x4 obbWorldMatrix = {};
+    for (unsigned int i = 0; i < 3; i++)
+    {
+        obbWorldMatrix.m[0][i] = _obb.orientations[i].x;
+        obbWorldMatrix.m[1][i] = _obb.orientations[i].y;
+        obbWorldMatrix.m[2][i] = _obb.orientations[i].z;
+        obbWorldMatrix.m[3][i] = *(&_obb.center.x + i);
+    }
+    obbWorldMatrix.m[3][3] = 1.0f;
+
+    Matrix4x4 obbInversedWM = Inverse(obbWorldMatrix);
+
+    Vector3 localOrigin = Transform(_segment.origin, obbInversedWM);
+    Vector3 localEnd = Transform(_segment.origin + _segment.diff, obbInversedWM);
+
+    // OBBローカル空間
+    AABB localAABB
+    {
+        {-_obb.size.x, -_obb.size.y, -_obb.size.z},
+        {+_obb.size.x, +_obb.size.y, +_obb.size.z},
+    };
+
+    Segment localSegment;
+    localSegment.origin = localOrigin;
+    localSegment.diff = localEnd - localOrigin;
+
+    return IsCollision(localAABB, localSegment);
+}
+
+bool IsCollision(const Segment& _segment, const OBB& _obb, const Matrix4x4& _viewProjectionMatrix, const Matrix4x4& _viewportMatrix)
+{
+    Matrix4x4 obbWorldMatrix = {};
+    for (unsigned int i = 0; i < 3; i++)
+    {
+        obbWorldMatrix.m[0][i] = _obb.orientations[i].x;
+        obbWorldMatrix.m[1][i] = _obb.orientations[i].y;
+        obbWorldMatrix.m[2][i] = _obb.orientations[i].z;
+        obbWorldMatrix.m[3][i] = *(&_obb.center.x + i);
+    }
+    obbWorldMatrix.m[3][3] = 1.0f;
+
+    Matrix4x4 obbInversedWM = Inverse(obbWorldMatrix);
+
+    Vector3 localOrigin = Transform(_segment.origin, obbInversedWM);
+    Vector3 localEnd = Transform(_segment.origin + _segment.diff, obbInversedWM);
+
+    // OBBローカル空間
+    AABB localAABB
+    {
+        {-_obb.size.x, -_obb.size.y, -_obb.size.z},
+        {+_obb.size.x, +_obb.size.y, +_obb.size.z},
+    };
+
+    Segment localSegment;
+    localSegment.origin = localOrigin;
+    localSegment.diff = localEnd - localOrigin;
+
+    DrawLine(localSegment.origin, localSegment.diff, _viewProjectionMatrix, _viewportMatrix, GREEN);
+    DrawAABB(localAABB, _viewProjectionMatrix, _viewportMatrix, GREEN);
+
+    return IsCollision(localAABB, localSegment, _viewProjectionMatrix, _viewportMatrix);
 }

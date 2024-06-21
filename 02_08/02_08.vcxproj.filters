@@ -44,6 +44,9 @@
     <Filter Include="3d\Object">
       <UniqueIdentifier>{ff3342cb-fcbd-4cda-abf2-42077b1fa6eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Extension">
+      <UniqueIdentifier>{20abfb74-0cd4-49fa-a1f0-f2deedf36dda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -88,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="3d\Object\Object3d.cpp">
       <Filter>3d\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="NVDebug.cpp">
+      <Filter>KamataEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="3d\Object\Object3d.h">
       <Filter>3d\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="NVDebug.h">
+      <Filter>Extension</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
