@@ -10,7 +10,6 @@
 #include <string>
 #include "3d/DebugFunction/Debug3D.h"
 #include "3d/Object/Object3d.h"
-#include "NVDebug.h"
 
 const		char		kWindowTitle[]	= "学籍番号";
 const		int			kWindowWidth	= 1280;
@@ -48,10 +47,10 @@ OBB			obb
 	.size = {0.5f, 0.5f, 0.5f}
 };
 
-Segment		segment
+Sphere		sphere
 {
-	.origin = {-0.8f, -0.3f, 0.0f},
-	.diff = {0.5f, 0.5f, 0.5f}
+	.center = {0.0f, 0.0f, 0.0f},
+	.radius = {0.5f}
 };
 
 float		cameraSpeed				= 0.01f;
@@ -68,7 +67,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	while (Novice::ProcessMessage() == 0) {
 		Novice::BeginFrame();
-		NVDebug::Begin();
 
 		memcpy(preKeys, keys, 256);
 		Novice::GetHitKeyStateAll(keys);
@@ -178,15 +176,15 @@ void ImGuiWnd()
 					ImGui::EndTabItem();
 				}
 
-				if (ImGui::BeginTabItem("Segment"))
+				if (ImGui::BeginTabItem("Sphere"))
 				{
 					ImGui::Spacing();
 
 					ImGui::Text("Transform");
 
-					ImGui::PushID("SEGMENT_TRANSFORM");
-					ImGui::DragFloat3("Origin", &segment.origin.x, 0.01f);
-					ImGui::DragFloat3("Diff", &segment.diff.x, 0.01f);
+					ImGui::PushID("SPHERE_TRANSFORM");
+					ImGui::DragFloat3("Center", &sphere.center.x, 0.01f);
+					ImGui::DragFloat("Radius", &sphere.radius, 0.01f);
 					ImGui::PopID();
 
 					ImGui::EndTabItem();
@@ -256,21 +254,21 @@ void Update()
 	}
 	
 	if (enableCollisionDebug)
-		isCollision = IsCollision(segment, obb, viewProjectionMatrix, viewportMatrix);
-	else isCollision = IsCollision(segment, obb);
+		isCollision = IsCollision(obb, sphere, viewProjectionMatrix, viewportMatrix);
+	else isCollision = IsCollision(obb, sphere);
 }
 
 void Draw()
 {
 	DrawGrid(viewProjectionMatrix, viewportMatrix);
-	DrawLine(segment.origin, segment.diff, viewProjectionMatrix, viewportMatrix, WHITE);
+	DrawSphere(sphere, viewProjectionMatrix, viewportMatrix, WHITE);
 	DrawOBB(obb, viewProjectionMatrix, viewportMatrix, isCollision ? RED : WHITE);
 	if (enableElementsNumber)
 	{
 		Vector3 scrpt1 = obb.center;
-		Vector3 scrpt2 = segment.origin + Multiply(0.5f, segment.diff);
+		Vector3 scrpt2 = sphere.center;
 
-		WorldPrint(scrpt1, viewProjectionMatrix, viewportMatrix, "OBB");
-		WorldPrint(scrpt2, viewProjectionMatrix, viewportMatrix, "Segment");
+		ScreenPrint(scrpt1, viewProjectionMatrix, viewportMatrix, "OBB");
+		ScreenPrint(scrpt2, viewProjectionMatrix, viewportMatrix, "Sphere");
 	}
 }

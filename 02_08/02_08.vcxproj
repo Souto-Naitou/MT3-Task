@@ -121,7 +121,6 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="MathExtension\mathExtension.cpp" />
     <ClCompile Include="Matrix4x4\calc\matrix4calc.cpp" />
     <ClCompile Include="Matrix4x4\output\matrix4out.cpp" />
-    <ClCompile Include="NVDebug.cpp" />
     <ClCompile Include="Vector3\calc\vector3calc.cpp" />
     <ClCompile Include="Vector3\output\vector3out.cpp" />
   </ItemGroup>
@@ -160,7 +159,6 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Matrix4x4\output\matrix4out.h" />
     <ClInclude Include="Vector3\calc\vector3calc.h" />
     <ClInclude Include="Vector3\output\vector3out.h" />
-    <ClInclude Include="NVDebug.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

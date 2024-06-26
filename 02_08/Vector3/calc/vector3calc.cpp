@@ -124,7 +124,7 @@ Vector3 ClosestPoint(const Vector3& _point, const Segment& _segment)
 	return result;
 }
 
-Vector3 Vector3::operator-(const Vector3& _v) const
+Vector3 Vector3::operator-(const Vector3& _v)
 {
 	return Subtract(*this, _v);
 }
@@ -136,9 +136,4 @@ Vector3 Vector3::operator-() const
 	result.y = -y;
 	result.z = -z;
 	return result;
-}
-
-Vector3 Vector3::operator+(const Vector3& _v) const
-{
-	return Add(*this, _v);
 }
