@@ -42,8 +42,8 @@ Vector3 e = a * 2.4f;
 Vector3 rotate{ 0.4f, 1.43f, -0.8f };
 
 Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotate.x);
-Matrix4x4 rotateYMatrix = MakeRotateXMatrix(rotate.y);
-Matrix4x4 rotateZMatrix = MakeRotateXMatrix(rotate.z);
+Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotate.y);
+Matrix4x4 rotateZMatrix = MakeRotateZMatrix(rotate.z);
 Matrix4x4 rotateMatrix = rotateXMatrix * rotateYMatrix * rotateZMatrix;
 
 float		cameraSpeed				= 0.01f;
@@ -139,43 +139,43 @@ void ImGuiWnd()
 			ImGui::EndTabItem();
 		}
 
-		if (ImGui::BeginTabItem("Objects")) {
+		//if (ImGui::BeginTabItem("Objects")) {
 
-			//if (ImGui::BeginTabBar("TABBER_OBJECTS"))
-			//{
-			//	if (ImGui::BeginTabItem("Sholder"))
-			//	{
-			//		ImGui::Spacing();
-			//		
-			//		ImGui::PushID("SHOLDER_TRANSFORM");
-			//		ImGui::Text("Transform");
-			//		ImGui::DragFloat3("Scale", &scales[0].x, 0.01f);
-			//		ImGui::Spacing();
-			//		ImGui::DragFloat3("Rotate", &rotate[0].x, 0.01f);
-			//		ImGui::Spacing();
-			//		ImGui::DragFloat3("Translate", &translate[0].x, 0.01f);
-			//		ImGui::Spacing();
-			//		ImGui::PopID();
+		//	if (ImGui::BeginTabBar("TABBER_OBJECTS"))
+		//	{
+		//		if (ImGui::BeginTabItem("Sholder"))
+		//		{
+		//			ImGui::Spacing();
+		//			
+		//			ImGui::PushID("SHOLDER_TRANSFORM");
+		//			ImGui::Text("Transform");
+		//			ImGui::DragFloat3("Scale", &scales[0].x, 0.01f);
+		//			ImGui::Spacing();
+		//			ImGui::DragFloat3("Rotate", &rotate[0].x, 0.01f);
+		//			ImGui::Spacing();
+		//			ImGui::DragFloat3("Translate", &translate[0].x, 0.01f);
+		//			ImGui::Spacing();
+		//			ImGui::PopID();
 
-			//		ImGui::EndTabItem();
-			//	}
+		//			ImGui::EndTabItem();
+		//		}
 
-			//	ImGui::EndTabBar();
-			//}
+		//		ImGui::EndTabBar();
+		//	}
 
-			//ImGui::EndTabItem();
-		}
+		//	ImGui::EndTabItem();
+		//}
 
-		if (ImGui::BeginTabItem("Collision"))
-		{
-			//ImGui::Spacing();
-			//ImGui::Text("Flags");
+		//if (ImGui::BeginTabItem("Collision"))
+		//{
+		//	ImGui::Spacing();
+		//	ImGui::Text("Flags");
 
-			//ImGui::Checkbox("Enable draw element name", &enableElementsNumber);
-			//ImGui::Checkbox("Enable collision debug", &enableCollisionDebug);
+		//	ImGui::Checkbox("Enable draw element name", &enableElementsNumber);
+		//	ImGui::Checkbox("Enable collision debug", &enableCollisionDebug);
 
-			//ImGui::EndTabItem();
-		}
+		//	ImGui::EndTabItem();
+		//}
 
 		if (ImGui::BeginTabItem("DebugText"))
 		{
@@ -187,7 +187,7 @@ void ImGuiWnd()
 			ImGui::Spacing();
 
 			ImGui::Text(
-				"matrix:\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
+				"matrix:\n%f, %f, %f, %f\n%f, %f, %f, %f\n%f, %f, %f, %f\n%f, %f, %f, %f", 
 				rotateMatrix.m[0][0], rotateMatrix.m[0][1], rotateMatrix.m[0][2], rotateMatrix.m[0][3],
 				rotateMatrix.m[1][0], rotateMatrix.m[1][1], rotateMatrix.m[1][2], rotateMatrix.m[1][3],
 				rotateMatrix.m[2][0], rotateMatrix.m[2][1], rotateMatrix.m[2][2], rotateMatrix.m[2][3],
