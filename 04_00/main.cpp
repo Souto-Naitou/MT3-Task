@@ -47,6 +47,7 @@ bool		enableCollisionDebug	= false;
 // 課題用
 Spring springs{};
 Ball ball{};
+bool isStopSpring{};
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -146,32 +147,27 @@ void ImGuiWnd()
             ImGui::EndTabItem();
         }
 
-        //if (ImGui::BeginTabItem("Objects")) {
+        if (ImGui::BeginTabItem("Objects")) 
+        {
+        	if (ImGui::BeginTabBar("TABBER_OBJECTS"))
+        	{
+        		if (ImGui::BeginTabItem("Spring&Ball"))
+        		{
+        			ImGui::Spacing();
+        			
+        			ImGui::PushID("SPRING_TABITEM");
+                    ImGui::DragFloat("positionX", &ball.position.x, 0.01f);
+                    ImGui::Checkbox("Stop", &isStopSpring);
+        			ImGui::PopID();
 
-        //	if (ImGui::BeginTabBar("TABBER_OBJECTS"))
-        //	{
-        //		if (ImGui::BeginTabItem("Sholder"))
-        //		{
-        //			ImGui::Spacing();
-        //			
-        //			ImGui::PushID("SHOLDER_TRANSFORM");
-        //			ImGui::Text("Transform");
-        //			ImGui::DragFloat3("Scale", &scales[0].x, 0.01f);
-        //			ImGui::Spacing();
-        //			ImGui::DragFloat3("Rotate", &rotate[0].x, 0.01f);
-        //			ImGui::Spacing();
-        //			ImGui::DragFloat3("Translate", &translate[0].x, 0.01f);
-        //			ImGui::Spacing();
-        //			ImGui::PopID();
+        			ImGui::EndTabItem();
+        		}
 
-        //			ImGui::EndTabItem();
-        //		}
+        		ImGui::EndTabBar();
+        	}
 
-        //		ImGui::EndTabBar();
-        //	}
-
-        //	ImGui::EndTabItem();
-        //}
+        	ImGui::EndTabItem();
+        }
 
         //if (ImGui::BeginTabItem("Collision"))
         //{
@@ -202,7 +198,6 @@ void ImGuiWnd()
         //        );
 
         //    ImGui::EndTabItem();
-        //}
 
         ImGui::EndTabBar();
     }
@@ -240,24 +235,28 @@ void Update()
     viewportMatrix = MakeViewportMatrix(0, 0, float(kWindowWidth), float(kWindowHeight), 0.0f, 1.0f);
     viewProjectionMatrix = Multiply(viewMatrix, projectionMatrix);
 
-    Vector3 diff = ball.position - springs.anchor;
-    float length = Length(diff);
-    if (length != 0.0f)
+    if (!isStopSpring)
     {
-        Vector3 direction = Normalize(diff);
-        Vector3 restPosition = springs.anchor + direction * springs.naturalLength;
-        Vector3 displacement = (ball.position - restPosition) * length;
-        Vector3 restoringForce = displacement * (-springs.stiffness);
-        Vector3 dampingForce = ball.velocity * (-springs.dampingCoefficient);
-        Vector3 force = restoringForce + dampingForce;
-        ball.acceleration = force * (1.0f / ball.mass);
+        Vector3 diff = ball.position - springs.anchor;
+        float length = Length(diff);
+        if (length != 0.0f)
+        {
+            Vector3 direction = Normalize(diff);
+            Vector3 restPosition = springs.anchor + direction * springs.naturalLength;
+            Vector3 displacement = (ball.position - restPosition) * length;
+            Vector3 restoringForce = displacement * (-springs.stiffness);
+            Vector3 dampingForce = ball.velocity * (-springs.dampingCoefficient);
+            Vector3 force = restoringForce + dampingForce;
+            ball.acceleration = force * (1.0f / ball.mass);
+        }
+
+
+        // 加速度も速度もどちらも秒を基準とした値である
+        // それが、1/60描画間(deltaTime)適用されたと考える
+        ball.velocity += ball.acceleration * kDeltaTime;
+        ball.position += ball.velocity * kDeltaTime;
     }
 
-
-    // 加速度も速度もどちらも秒を基準とした値である
-    // それが、1/60描画間(deltaTime)適用されたと考える
-    ball.velocity += ball.acceleration * kDeltaTime;
-    ball.position += ball.velocity * kDeltaTime;
 }
 
 void Draw()
