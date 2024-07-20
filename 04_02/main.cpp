@@ -108,7 +108,6 @@ void ImGuiWnd()
     /// Window
     ImGui::SetNextWindowSize(ImVec2(320, 320));
     const ImGuiWindowFlags windowFlag = ImGuiWindowFlags_NoResize;
-    ImGui::ShowDemoWindow();
     ImGui::Begin("DebugWindow", (bool*)false, windowFlag);
 
     if (ImGui::BeginTabBar("ObjectsTab"))
