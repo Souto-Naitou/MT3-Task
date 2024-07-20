@@ -46,9 +46,9 @@ bool		enableElementsNumber	= true;
 bool		enableCollisionDebug	= false;
 
 // 課題用
-ConicalPendulum conicalPendulum;
-Ball ball{};
+Pendulum pendulum;
 bool isMoving{};
+Vector3 point; // 振り子の先端
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -90,11 +90,11 @@ void Initialize()
     cameraRotation.y = 0.0f;
     cameraRotation.z = 0.0f;
 
-    conicalPendulum.anchor = { 0.0f, 1.0f, 0.0f };
-    conicalPendulum.length = 0.8f;
-    conicalPendulum.halfApexAngle = 0.7f;
-    conicalPendulum.angle = 0.0f;
-    conicalPendulum.angularVelocity = 0.0f;
+    pendulum.anchor = { 0.0f, 1.0f, 0.0f };
+    pendulum.length = 0.8f;
+    pendulum.angle = 0.7f;
+    pendulum.angularVelocity = 0.0f;
+    pendulum.angularAcceleration = 0.0f;
 }
 
 void ImGuiWnd()
@@ -108,7 +108,6 @@ void ImGuiWnd()
     /// Window
     ImGui::SetNextWindowSize(ImVec2(320, 320));
     const ImGuiWindowFlags windowFlag = ImGuiWindowFlags_NoResize;
-    ImGui::ShowDemoWindow();
     ImGui::Begin("DebugWindow", (bool*)false, windowFlag);
 
     if (ImGui::BeginTabBar("ObjectsTab"))
@@ -234,13 +233,13 @@ void Update()
 
     if (isMoving)
     {
-        conicalPendulum.angularVelocity = std::sqrt(9.8f / (conicalPendulum.length * std::cos(conicalPendulum.halfApexAngle)));
-        conicalPendulum.angle += conicalPendulum.angularVelocity * kDeltaTime;
-        float radius = std::sin(conicalPendulum.halfApexAngle) * conicalPendulum.length;
-        float height = std::cos(conicalPendulum.halfApexAngle) * conicalPendulum.length;
-        ball.position.x = conicalPendulum.anchor.x + std::cos(conicalPendulum.angle) * radius;
-        ball.position.y = conicalPendulum.anchor.y - height;
-        ball.position.z = conicalPendulum.anchor.z - std::sin(conicalPendulum.angle) * radius;
+        pendulum.angularAcceleration = -(9.8f / pendulum.length) * std::sin(pendulum.angle);
+        pendulum.angularVelocity += pendulum.angularAcceleration * kDeltaTime;
+        pendulum.angle += pendulum.angularVelocity * kDeltaTime;
+
+        point.x = pendulum.anchor.x + std::sin(pendulum.angle) * pendulum.length;
+        point.y = pendulum.anchor.y - std::cos(pendulum.angle) * pendulum.length;
+        point.z = pendulum.anchor.z;
     }
 
 }
@@ -249,7 +248,7 @@ void Draw()
 {
     DrawGrid(viewProjectionMatrix, viewportMatrix);
 
-    DrawSphere({ .center = ball.position, .radius = 0.05f }, viewProjectionMatrix, viewportMatrix, WHITE);
+    DrawSphere({ .center = point, .radius = 0.05f }, viewProjectionMatrix, viewportMatrix, WHITE);
 
     if (enableElementsNumber)
     {
